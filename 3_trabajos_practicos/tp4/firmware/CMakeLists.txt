@@ -60,7 +60,8 @@ target_include_directories(firmware PRIVATE
 # Add any user requested libraries
 target_link_libraries(firmware 
         hardware_i2c 
-        freertos)
+        freertos
+        hardware_pwm)
 
 pico_add_extra_outputs(firmware)
 
