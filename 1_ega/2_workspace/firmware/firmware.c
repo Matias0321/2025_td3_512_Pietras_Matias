@@ -6,8 +6,8 @@
  * @date 2025-06-30
  *
  * @copyright Copyright (c) 2025
- *
  */
+
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/adc.h"
@@ -779,6 +779,20 @@ void IRQ_ReadAdcFifo(){
  */
 void i2c_config(void){
     i2c_init(I2C_PORT, I2C_FREQ);
+=======
+
+#include "modules/temt6000/temt6000.h"
+#include "modules/bh1750/bh1750.h"
+
+#define I2C_FREQ 400*1000
+
+#define PIN_TEMT6000 28
+#define CHANN_TEMT6000 2
+
+
+void i2c_config(void){
+    i2c_init(I2C_PORT, I2C_FREQ);
+    
     gpio_set_function(I2C_SDA, GPIO_FUNC_I2C);
     gpio_set_function(I2C_SCL, GPIO_FUNC_I2C);
     gpio_pull_up(I2C_SDA);

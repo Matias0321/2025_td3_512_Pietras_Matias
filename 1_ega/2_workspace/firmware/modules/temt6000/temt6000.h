@@ -40,3 +40,4 @@ float temt6000_get_lux(uint16_t adc_raw);
 float temt6000_set_calib(float set_calib);
 
 float temt6000_get_raw_lux(uint16_t adc_raw);
+
