@@ -1,5 +1,6 @@
 #include "bh1750.h"
 
+
 /**
  * @brief Inicializa el bh1750
  * 

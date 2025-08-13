@@ -1,6 +1,7 @@
 /**
  * @file firmware.c
  * @author Franco Lopez & Matias Pietras (francoalelopez@gmail.com mati_pietras@yahoo.com.ar)
+
  * @brief 
  * @version 0.1
  * @date 2025-06-30
@@ -29,15 +30,18 @@ void i2c_config(void){
     gpio_pull_up(I2C_SDA);
     gpio_pull_up(I2C_SCL);
 
+
 }
 
 void adc_config(void){
     adc_gpio_init(PIN_TEMT6000);
     adc_select_input(CHANN_TEMT6000);
+
 }
 
 int main() {
     stdio_init_all();
+
 
     adc_init();
     i2c_config();

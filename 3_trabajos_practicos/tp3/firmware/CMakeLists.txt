@@ -37,11 +37,6 @@ pico_sdk_init()
 
 add_executable(firmware firmware.c )
 
-# Agrega el subdirectorio con tus módulos
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../freertos ${CMAKE_BINARY_DIR}/freertos)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/modules/temt6000)
-
-
 pico_set_program_name(firmware "firmware")
 pico_set_program_version(firmware "0.1")
 
@@ -51,21 +46,31 @@ pico_enable_stdio_usb(firmware 1)
 
 # Add the standard library to the build
 target_link_libraries(firmware
-        pico_stdlib
-        )
+    pico_stdlib
+    freertos    
+    hardware_i2c
+    pico_cyw43_arch_none
+)
+# Añadir la subcarpeta donde está la biblioteca LCD
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../lcd ${CMAKE_BINARY_DIR}/lcd)
+# Agrega dependencia al proyecto
+target_link_libraries(firmware lcd)
+
+# Add external FreeRTOS library
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../freertos ${CMAKE_BINARY_DIR}/freertos)
+
+# Añadir la subcarpeta donde está la biblioteca LCD
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../helper ${CMAKE_BINARY_DIR}/helper)
+# Agrega dependencia al proyecto
+target_link_libraries(firmware helper)
+
 
 # Add the standard include files to the build
 target_include_directories(firmware PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
 )
 
-# Add any user requested libraries
-target_link_libraries(firmware 
-        temt6000
-        bh1750
-        freertos
-        hardware_adc
-        )
+
 
 pico_add_extra_outputs(firmware)
 

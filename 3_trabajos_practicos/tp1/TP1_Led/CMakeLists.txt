@@ -28,44 +28,40 @@ set(PICO_BOARD pico2_w CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(firmware C CXX ASM)
+project(TP1_Led C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(firmware firmware.c )
+add_executable(TP1_Led TP1_Led.c )
 
-# Agrega el subdirectorio con tus módulos
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../freertos ${CMAKE_BINARY_DIR}/freertos)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/modules/temt6000)
-
-
-pico_set_program_name(firmware "firmware")
-pico_set_program_version(firmware "0.1")
+pico_set_program_name(TP1_Led "TP1_Led")
+pico_set_program_version(TP1_Led "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(firmware 0)
-pico_enable_stdio_usb(firmware 1)
+pico_enable_stdio_uart(TP1_Led 0)
+pico_enable_stdio_usb(TP1_Led 1)
+
 
 # Add the standard library to the build
-target_link_libraries(firmware
-        pico_stdlib
-        )
+target_link_libraries(TP1_Led
+        pico_stdlib freertos)
+
+# Add external FreeRTOS library                 aaaaaaaaaaaaaaaaaaaaaaaa aca toque algo
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../freertos ${CMAKE_BINARY_DIR}/freertos)
+
 
 # Add the standard include files to the build
-target_include_directories(firmware PRIVATE
+target_include_directories(TP1_Led PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
 )
 
 # Add any user requested libraries
-target_link_libraries(firmware 
-        temt6000
-        bh1750
-        freertos
-        hardware_adc
+target_link_libraries(TP1_Led 
+        pico_cyw43_arch_none
         )
 
-pico_add_extra_outputs(firmware)
+pico_add_extra_outputs(TP1_Led)
 
