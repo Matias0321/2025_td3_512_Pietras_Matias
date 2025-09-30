@@ -9,6 +9,8 @@
 // Etiqueta para el autor del modulo
 #define AUTHOR	"Matias"
 
+//#define PIN_LED 17
+
 // Puntero para primer hilo
 static struct task_struct *thread1;
 // Puntero para segundo hilo
@@ -22,9 +24,10 @@ static int thread1_f(void *params) {
     // Corre mientras no haya otros procesos que lo detengan
     while(!kthread_should_stop()) {
         // Mensaje para el Kernel
-        printk(KERN_INFO "%s: Hola desde el kernel!\n", AUTHOR);
-        // Demora de 1 segundo
-        msleep(500);
+        printk(KERN_INFO "%s: Led_ON\n", AUTHOR);
+		gpio_set(17);
+		// Demora de 0.5 segundo
+		msleep(500);
     }
     return 0;
 }
@@ -38,8 +41,9 @@ static int thread2_f(void *params) {
     // Corre mientras no haya otros procesos que lo detengan
     while(!kthread_should_stop()) {
         // Mensaje para el Kernel
-        printk(KERN_INFO "%s: Chau desde el kernel!\n", AUTHOR);
-        // Demora de 2 segundos
+        printk(KERN_INFO "%s: Led_OFF\n", AUTHOR);
+        gpio_clr(17);
+		// Demora de 0.5 segundos
         msleep(500);
     }
     return 0;
@@ -50,6 +54,11 @@ static int thread2_f(void *params) {
  * @return devuelve cero si salio bien
 */
 static int __init kernel_thread_init(void) {
+
+	gpio_map();
+	gpio_set_dir_output(17);
+
+
     // Mensaje para el Kernel
 	printk(KERN_INFO "%s: Insertando el modulo de kernel\n", AUTHOR);
     // Intento crear y correr el hilo
