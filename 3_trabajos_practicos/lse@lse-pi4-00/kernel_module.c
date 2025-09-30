@@ -2,9 +2,6 @@
 #include <linux/init.h>
 #include "gpio_driver.h"
 
-#include <linux/kernel.h>
-#include <linux/kthread.h>
-#include <linux/delay.h>
 
 // Etiqueta para el autor del modulo
 #define AUTHOR	"Matias"
@@ -34,7 +31,6 @@ static int thread1_f(void *params) {
  * @param params puntero a parametros
 */
 static int thread2_f(void *params) {
-	msleep(250);
     // Corre mientras no haya otros procesos que lo detengan
     while(!kthread_should_stop()) {
         // Mensaje para el Kernel
